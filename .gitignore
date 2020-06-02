@@ -1,0 +1,4 @@
+.env
+dash_app/data/*
+dash_app/app.yaml
+
