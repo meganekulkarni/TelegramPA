@@ -15,21 +15,12 @@ app=dash.Dash()
 # -------------------------- PYTHON FUNCTIONS ---------------------------- #
 
 
-def add_numbers(first_num,second_num):
-    new_num = first_num + second_num
-    return new_num
-
-def multiply_numbers(first_num,second_num):
-    new_num = first_num * second_num
-    return new_num
-
-
 def build_banner():
     return html.Div(
         id='banner',
         className='banner',
         children=[
-            html.Img(src=app.get_asset_url('dsc-logo2.png')),
+            html.Img(src=app.get_asset_url('touching-tips.jpg'), height="50px",width="100px"),
         ],
     )
 
@@ -37,15 +28,17 @@ def TP_Sort():
     return html.Div([html.H1('Data Throughput Dashboard-NOC NPM Core'),
                 dcc.Interval(id='graph-update',interval=10000),
                 dtable.DataTable(id='my-table',
-                                columns=[{"name": i, "id": i} for i in ["test","test2","test3","test4"]],
+                                columns=[{"name": i, "id": i} for i in ["date","unix_timestamp","category","full_text"]],
                                  data=[{}])])
 
-def render_chart(df): 
+def render_chart(): 
 
-    fig = go.Figure(go.Bar(
-                x=[20, 14, 23],
-                y=['giraffes', 'orangutans', 'monkeys'],
-                orientation='h'))
+    fig = dict({
+        "data": [{}],
+        "layout": {"title": {"text": "Spend By Category"}}
+    })
+
+    fig2 = go.Figure(fig)
         #     'data': [
         #         {'x': data_df.index.values.tolist(), 'y': data_df['add_num'], 'type': 'bar', 'name': 'Add Numbers'},
         #         {'x': data_df.index.values.tolist(), 'y': data_df['multiply_num'], 'type': 'bar', 'name': 'Multiply Numbers'},
@@ -54,30 +47,12 @@ def render_chart(df):
         #         'title': 'Dash Data Visualization'
         #     }
         # }
-    dcc.Graph(
+    return dcc.Graph(
         id='my-graph',
-        figure=fig
+        figure=fig2
     )                
 
     # fig.show()
-
-# -------------------------- LOAD DATA ---------------------------- #
-
-
-csv_files_path = os.path.join('data/data.csv')
-
-data_df = pd.read_csv(csv_files_path)
-
-add_num_list = []
-multiply_num_list = []
-
-for index, row in data_df.iterrows():
-    add_num_list.append(add_numbers(row['first_num'], row['second_num']))
-    multiply_num_list.append(multiply_numbers(row['first_num'], row['second_num']))
-
-data_df['add_num'] = add_num_list
-data_df['multiply_num'] = multiply_num_list
-
 
 # -------------------------- TEXT ---------------------------- #
 
@@ -117,17 +92,10 @@ app.layout = html.Div(children=[
         ]
     ),
 
-    dcc.Graph(
-        id='example-graph',
-        figure={
-            'data': [
-                {'x': data_df.index.values.tolist(), 'y': data_df['add_num'], 'type': 'bar', 'name': 'Add Numbers'},
-                {'x': data_df.index.values.tolist(), 'y': data_df['multiply_num'], 'type': 'bar', 'name': 'Multiply Numbers'},
-            ],
-            'layout': {
-                'title': 'Dash Data Visualization'
-            }
-        }
+    html.Div(
+        children=[
+            render_chart()
+        ]
     )
 ])
 
@@ -138,19 +106,54 @@ app.layout = html.Div(children=[
 @app.callback(Output('my-table', 'data'), [Input('graph-update', 'n_intervals')])
 def update_table(n, maxrows=4):
     # We're now in interval *n*
-    TP_Sort()
-    TP_Table1='/home/keshev/Repos/TelegramPA/deploy-dash-with-gcp/simple-dash-app-engine-app/data/eggs.csv'
-    TP_Table2=pd.read_csv(TP_Table1)
-    return TP_Table2.to_dict(orient="records")
 
-@app.callback(Output('my-graph', 'data'), [Input('graph-update', 'n_intervals')])
+    #right now it's just polling a file. I'll see if the input structure can actually accept changes to a file saved on disk
+    TP_Sort()
+    logpath ='./data/full_log.csv'
+    if os.path.exists(logpath):
+        TP_Table2=pd.read_csv(logpath)
+        return TP_Table2.to_dict(orient="records")
+    else:
+        return [{}]
+
+@app.callback(Output('my-graph', 'figure'), [Input('graph-update', 'n_intervals')])
 def update_graph(n, maxrows=4):
     # We're now in interval *n*
-    TP_Sort()
-    TP_Table1='/home/keshev/Repos/TelegramPA/deploy-dash-with-gcp/simple-dash-app-engine-app/data/eggs.csv'
-    TP_Table2=pd.read_csv(TP_Table1)
-    return TP_Table2.to_dict(orient="records")
 
+    render_chart()
+    spend_path = "./data/spend.csv"
+    if os.path.exists(spend_path):
+        df = pd.read_csv(spend_path)
+        grouped_df = df.groupby("label", as_index=False).agg({"amount":"sum"}).sort_values("amount",ascending=True)
+        fig = dict({
+            "data": [{"type": "bar",
+                "x": grouped_df['amount'],
+                "y": grouped_df['label'],
+                "orientation":'h'}],
+            "layout": {"title": {"text": "Spend By Category"}}
+        })
+
+        fig2 = go.Figure(fig)
+        return fig2
+    else:
+        fig = dict({
+            "data": [{}],
+            "layout": {"title": {"text": "Spend By Category"}}
+        })
+
+        fig2 = go.Figure(fig)
+            #     'data': [
+            #         {'x': data_df.index.values.tolist(), 'y': data_df['add_num'], 'type': 'bar', 'name': 'Add Numbers'},
+            #         {'x': data_df.index.values.tolist(), 'y': data_df['multiply_num'], 'type': 'bar', 'name': 'Multiply Numbers'},
+            #     ],
+            #     'layout': {
+            #         'title': 'Dash Data Visualization'
+            #     }
+            # }
+        return dcc.Graph(
+            id='my-graph',
+            figure=fig2
+        )              
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', port=8080, debug=True, use_reloader=False)
