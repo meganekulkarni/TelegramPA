@@ -12,6 +12,10 @@ ________________
 4. follow the prompts to create a bot
 5. Copy the API token
 
+##Local Environment Variables
+
+1. Fill in the environment variables information in sample.env
+2. save the file as .env in the same folder
 
 ##Running the code
 
