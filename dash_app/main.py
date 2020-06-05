@@ -109,7 +109,8 @@ def update_table(n, maxrows=4):
 
     #right now it's just polling a file. I'll see if the input structure can actually accept changes to a file saved on disk
     TP_Sort()
-    logpath ='./data/full_log.csv'
+    #logpath ='./data/full_log.csv'
+    logpath = os.path.join(os.getenv("TELEGRAMPA_PROJECT_HOME"),"./dash_app/data/full_log.csv")
     if os.path.exists(logpath):
         TP_Table2=pd.read_csv(logpath)
         return TP_Table2.to_dict(orient="records")
@@ -121,7 +122,7 @@ def update_graph(n, maxrows=4):
     # We're now in interval *n*
 
     render_chart()
-    spend_path = "./data/spend.csv"
+    spend_path = os.path.join(os.getenv("TELEGRAMPA_PROJECT_HOME"),"./dash_app/data/spend.csv")
     if os.path.exists(spend_path):
         df = pd.read_csv(spend_path)
         grouped_df = df.groupby("label", as_index=False).agg({"amount":"sum"}).sort_values("amount",ascending=True)

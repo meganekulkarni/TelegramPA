@@ -2,6 +2,8 @@
 dash_app/data/*
 dash_app/app.yaml
 
+!dash_app/data/.gitkeep
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
