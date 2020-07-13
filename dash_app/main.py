@@ -3,10 +3,45 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import os
+import json
 from pandas import Series, DataFrame
 from dash.dependencies import Input, Output
 import dash_table as dtable
 import plotly.graph_objects as go
+import react_dnd as react_dnd
+
+todo_data = [
+  {
+    "id": 1,
+    "status": "open",
+    "title": "Human Interest Form",
+    "content": "Fill out human interest distribution form",
+    "estimate": "30m"
+  },
+  {
+    "id": 2,
+    "status": "open",
+    "title": "Purchase present",
+    "content": "Get an anniversary gift",
+    "estimate": "4h"
+  },
+  {
+    "id": 3,
+    "status": "open",
+    "title": "Invest in investments",
+    "content": "Call the bank to talk about investments",
+    "estimate": "1d"
+  },
+  {
+    "id": 4,
+    "status": "open",
+    "title": "Daily reading",
+    "content": "Finish reading Intro to UI/UX",
+    "estimate": "2w"
+  }
+]
+
+todo_statuses = ['open', 'in progress', 'in review', 'done']
 
 
 app=dash.Dash()
@@ -93,6 +128,20 @@ app.layout = html.Div(children=[
     ),
 
     html.Div(
+      children=(
+        react_dnd.ReactDnd(
+            id="react-dnd",
+            data=todo_data,
+            statuses=todo_statuses
+        ),
+      )
+    ),
+
+    html.Div(
+      id="todo-output"
+    ),
+
+    html.Div(
         children=[
             render_chart()
         ]
@@ -155,6 +204,15 @@ def update_graph(n, maxrows=4):
             id='my-graph',
             figure=fig2
         )              
+
+
+@app.callback(
+    Output(component_id='todo-output', component_property='children'),
+    [Input(component_id='react-dnd', component_property='data')]
+)
+
+def display_output(value):
+    return json.dumps(value)
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', port=8080, debug=True, use_reloader=False)
