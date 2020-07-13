@@ -1,0 +1,114 @@
+{
+  "src/lib/components/DropWrapper.js": {
+    "description": "The ID used to identify this component in Dash callbacks.",
+    "displayName": "DropWrapper",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "label": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "A label that will be printed when this component is rendered."
+      },
+      "value": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The value displayed in the input."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      }
+    }
+  },
+  "src/lib/components/Item.js": {
+    "description": "Each task is an item",
+    "displayName": "Item",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "item": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The data of this item"
+      },
+      "deleteItem": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Function to run when this item is being deleted"
+      },
+      "moveItem": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Function to run when this item is being moved"
+      },
+      "setDragElement": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Function to run when this item is being dragged"
+      }
+    }
+  },
+  "src/lib/components/ReactDnd.react.js": {
+    "description": "ReactDnd takes an array of data and statuses \nand displays them in columns for the user to drag\nand update their status.",
+    "displayName": "ReactDnd",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "statuses": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": "List of status columns for each task"
+      },
+      "data": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": "A list of current tasks and their status"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      }
+    }
+  }
+}
