@@ -9,6 +9,9 @@ from dash.dependencies import Input, Output
 import dash_table as dtable
 import plotly.graph_objects as go
 import react_dnd as react_dnd
+from dotenv import load_dotenv
+
+load_dotenv()
 
 todo_data = [
   {
