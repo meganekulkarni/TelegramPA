@@ -1,0 +1,18 @@
+{
+  "id": "fa1bdc284468fd9ab763593ef362ab91",
+  "type": "tracker",
+  "status": "Spend",
+  "title": "restaurant",
+  "user_id": 756806448,
+  "user_name": "Keshev Kulkarni",
+  "datetime_logged": "2020-07-25 13:38:41.706330",
+  "message_date": 1595698721,
+  "input_datetime": "2020-07-25 13:38:41.706338",
+  "content": "restaurant",
+  "magnitude": 45.0,
+  "units": "$",
+  "attributes": {
+    "example_attribute_1": "example_attribute_value"
+  },
+  "estimate": "45 $"
+}

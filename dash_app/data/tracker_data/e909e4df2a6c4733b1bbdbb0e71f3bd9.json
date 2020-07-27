@@ -1,0 +1,18 @@
+{
+  "id": "e909e4df2a6c4733b1bbdbb0e71f3bd9",
+  "type": "tracker",
+  "status": "Spend",
+  "title": "laptop",
+  "user_id": 756806448,
+  "user_name": "Keshev Kulkarni",
+  "datetime_logged": "2020-07-25 13:59:20.521876",
+  "message_date": 1595699960,
+  "input_datetime": "2020-07-25 13:59:20.521885",
+  "content": "laptop",
+  "magnitude": 100.0,
+  "units": "$",
+  "attributes": {
+    "example_attribute_1": "example_attribute_value"
+  },
+  "estimate": "100 $"
+}

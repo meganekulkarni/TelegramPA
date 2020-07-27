@@ -1,0 +1,18 @@
+{
+  "id": "b2181350d5a5c7fd1afa76552bc11da2",
+  "type": "tracker",
+  "status": "Spend",
+  "title": "Some Art",
+  "user_id": 756806448,
+  "user_name": "Keshev Kulkarni",
+  "datetime_logged": "2020-07-25 13:45:29.035889",
+  "message_date": 1595699128,
+  "input_datetime": "2020-07-25 13:45:29.035898",
+  "content": "Some Art",
+  "magnitude": 12.42,
+  "units": "$",
+  "attributes": {
+    "example_attribute_1": "example_attribute_value"
+  },
+  "estimate": "12.42 $"
+}

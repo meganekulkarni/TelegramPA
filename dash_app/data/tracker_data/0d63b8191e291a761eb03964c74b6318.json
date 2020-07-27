@@ -1,0 +1,18 @@
+{
+  "id": "0d63b8191e291a761eb03964c74b6318",
+  "type": "tracker",
+  "status": "Spend",
+  "title": "fries",
+  "user_id": 756806448,
+  "user_name": "Keshev Kulkarni",
+  "datetime_logged": "2020-07-25 14:02:55.772982",
+  "message_date": 1595700175,
+  "input_datetime": "2020-07-25 14:02:55.772991",
+  "content": "fries",
+  "magnitude": 2.99,
+  "units": "$",
+  "attributes": {
+    "example_attribute_1": "example_attribute_value"
+  },
+  "estimate": "2.99 $"
+}

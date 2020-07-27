@@ -1,0 +1,18 @@
+{
+  "id": "5793ae59a5b0a7d72dd77dc4171b5a3c",
+  "type": "tracker",
+  "status": "Spend",
+  "title": "gift for Olga",
+  "user_id": 756806448,
+  "user_name": "Keshev Kulkarni",
+  "datetime_logged": "2020-07-25 13:42:15.619430",
+  "message_date": 1595698935,
+  "input_datetime": "2020-07-25 13:42:15.619441",
+  "content": "gift for Olga",
+  "magnitude": 89.0,
+  "units": "$",
+  "attributes": {
+    "example_attribute_1": "example_attribute_value"
+  },
+  "estimate": "89 $"
+}
