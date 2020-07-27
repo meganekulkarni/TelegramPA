@@ -44,7 +44,47 @@ todo_data = [
   }
 ]
 
+def update_tracker_data(): 
+    tracker_path = os.path.join(os.getenv("TELEGRAMPA_PROJECT_HOME"),"dash_app/data/tracker_data/")
+    tracker_jsons = os.listdir(tracker_path)
+
+    json_list = []
+    for tracker_json in tracker_jsons: 
+        filepath = os.path.join(tracker_path, tracker_json)
+        with open(filepath, "r") as fp:
+            json_data = json.load(fp)
+            json_data.pop("attributes")
+            json_list.append(json_data)
+    
+    return json_list
+
+
+tracker_json_list = update_tracker_data()
 todo_statuses = ['open', 'in progress', 'in review', 'done']
+
+###with Rob's stuff I can provide a list of the column headers, then provide data. This gets binned into the appropriate list based on the status field
+#TODO NEXT
+#Use Cases for list module
+#From telegram:
+    #add to an existing list
+    #create a new list
+
+#key-value store
+# One datastore with the titles, potentially some metadata
+#{
+#   "groceries": { "created_at":2020-07-18,
+#                  ""
+#
+#           }
+#
+#
+#}
+
+#One datastore for current data
+#One datastore for the historical data
+
+#TODO NEXT
+#Create schemas for these datastores
 
 
 app=dash.Dash()
@@ -90,6 +130,15 @@ def render_chart():
         figure=fig2
     )                
 
+def render_tracker_lists(): 
+    json_list = update_tracker_data()
+    statuses = list(set([x["status"] for x in json_list]))
+
+    return react_dnd.ReactDnd(
+            id="react-dnd",
+            data=json_list,
+            statuses=statuses
+        )
     # fig.show()
 
 # -------------------------- TEXT ---------------------------- #
@@ -114,6 +163,7 @@ app.config.suppress_callback_exceptions = True
 
 # -------------------------- PROJECT DASHBOARD ---------------------------- #
 
+#TODO NEXT get rid of the duplicated list
 
 app.layout = html.Div(children=[
     html.H1(
@@ -130,13 +180,8 @@ app.layout = html.Div(children=[
         ]
     ),
 
-    html.Div(
-      children=(
-        react_dnd.ReactDnd(
-            id="react-dnd",
-            data=todo_data,
-            statuses=todo_statuses
-        ),
+    html.Div(id="tracker-list-controller",
+      children=(render_tracker_lists(),
       )
     ),
 
@@ -176,12 +221,18 @@ def update_graph(n, maxrows=4):
     render_chart()
     spend_path = os.path.join(os.getenv("TELEGRAMPA_PROJECT_HOME"),"./dash_app/data/spend.csv")
     if os.path.exists(spend_path):
-        df = pd.read_csv(spend_path)
-        grouped_df = df.groupby("label", as_index=False).agg({"amount":"sum"}).sort_values("amount",ascending=True)
+        #df = pd.read_csv(spend_path)
+        tracker_json_list = update_tracker_data() 
+        tracker_df = pd.DataFrame(tracker_json_list)
+
+        ###TODO selected tracker status needs to be an input of some sort and updatable by the user
+        selected_tracker_status = "Spend"
+        tracker_df = tracker_df[tracker_df["status"]==selected_tracker_status]
+        grouped_df = tracker_df.groupby("title", as_index=False).agg({"magnitude":"sum"}).sort_values("magnitude",ascending=True)
         fig = dict({
             "data": [{"type": "bar",
-                "x": grouped_df['amount'],
-                "y": grouped_df['label'],
+                "x": grouped_df['magnitude'],
+                "y": grouped_df['title'],
                 "orientation":'h'}],
             "layout": {"title": {"text": "Spend By Category"}}
         })
@@ -208,6 +259,14 @@ def update_graph(n, maxrows=4):
             figure=fig2
         )              
 
+
+
+@app.callback(
+    Output(component_id='react-dnd', component_property='data'),
+    [Input('graph-update', 'n_intervals')]
+)
+def update_tracker_list_controller_data(n, maxrows=4):
+    return update_tracker_data()
 
 @app.callback(
     Output(component_id='todo-output', component_property='children'),
