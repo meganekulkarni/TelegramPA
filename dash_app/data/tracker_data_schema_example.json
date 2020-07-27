@@ -1,0 +1,20 @@
+[
+    {
+        "id": "",
+        "type": "tracker",
+        "status": "Cal-Tracker",
+        "title": "Burger",
+        "user_id":"",
+        "user_name":"Keshev Kulkarni",
+        "datetime_logged":"20200722 12:22:31.000",
+        "message_date":10231231899,
+        "input_datetime":"20200722 12:22:31.000", 
+        "content": "",
+        "magnitude":430, 
+        "units":"$",
+        "attributes":{
+            "example_attribute_1":"example_attribute_value"
+        },
+        "estimate": "NA"
+      },
+]

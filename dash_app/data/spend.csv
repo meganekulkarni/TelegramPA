@@ -1,0 +1,6 @@
+"date","unix_timestamp","category","full_text","label","amount"
+"2020-07-03",1593793024.988836,"amount","Test $45","Test",45.0
+"2020-07-03",1593793431.1057587,"amount","hi $300","Hi",300.0
+"2020-07-03",1593793459.7308142,"amount","bagels $20","Bagels",20.0
+"2020-07-05",1593975510.0233314,"amount","Groceries $127.49","Groceries .49",127.0
+"2020-07-05",1593975562.3024166,"amount","Ed's time $430","Ed'S Time",430.0
