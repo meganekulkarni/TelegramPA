@@ -1,6 +1,8 @@
 .env
-dash_app/data/*
+#dash_app/data/*
 dash_app/app.yaml
+telegrampa-ae6d52c3deb7.json
+telegram_listener/telegrampa_cloud_listener/.env.yaml
 
 !dash_app/data/.gitkeep
 
